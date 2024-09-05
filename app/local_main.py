@@ -1,23 +1,29 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import torch
+from transformers import RobertaTokenizer, RobertaForSequenceClassification
 from concurrent.futures import ThreadPoolExecutor
+import os
 
 app = FastAPI()
 
 class CodeRequest(BaseModel):
     code: str
 
-# Load models and tokenizers from Hugging Face directly
-severity_model = AutoModelForSequenceClassification.from_pretrained("BhardwajArjit/static_analyzer_models", subfolder="severity_scoring_codebert")
-severity_tokenizer = AutoTokenizer.from_pretrained("BhardwajArjit/static_analyzer_models", subfolder="severity_scoring_codebert")
+# Local paths to models and tokenizers
+severity_model_path = os.path.abspath('./models/severity_scoring_codebert')
+fix_suggestions_model_path = os.path.abspath('./models/fix_suggestions_codebert')
+vulnerability_model_path = os.path.abspath('./models/vulnerability_detection_codebert')
 
-fix_suggestions_model = AutoModelForSequenceClassification.from_pretrained("BhardwajArjit/static_analyzer_models", subfolder="fix_suggestions_codebert")
-fix_suggestions_tokenizer = AutoTokenizer.from_pretrained("BhardwajArjit/static_analyzer_models", subfolder="fix_suggestions_codebert")
+# Load models and tokenizers
+severity_model = RobertaForSequenceClassification.from_pretrained(severity_model_path)
+severity_tokenizer = RobertaTokenizer.from_pretrained(severity_model_path)
 
-vulnerability_model = AutoModelForSequenceClassification.from_pretrained("BhardwajArjit/static_analyzer_models", subfolder="vulnerability_detection_codebert")
-vulnerability_tokenizer = AutoTokenizer.from_pretrained("BhardwajArjit/static_analyzer_models", subfolder="vulnerability_detection_codebert")
+fix_suggestions_model = RobertaForSequenceClassification.from_pretrained(fix_suggestions_model_path)
+fix_suggestions_tokenizer = RobertaTokenizer.from_pretrained(fix_suggestions_model_path)
+
+vulnerability_model = RobertaForSequenceClassification.from_pretrained(vulnerability_model_path)
+vulnerability_tokenizer = RobertaTokenizer.from_pretrained(vulnerability_model_path)
 
 # Define label sets
 severity_set = ['Safe', 'Low', 'Medium', 'High']
@@ -35,6 +41,8 @@ def classify_severity(code):
     with torch.no_grad():
         outputs = severity_model(**inputs)
     predicted_class_id = torch.argmax(outputs.logits, dim=-1).item()
+    if predicted_class_id >= len(severity_set):
+        raise IndexError("Predicted class ID is out of range for severity set.")
     return severity_set[predicted_class_id]
 
 def suggest_fix(code):
@@ -42,6 +50,9 @@ def suggest_fix(code):
     with torch.no_grad():
         outputs = fix_suggestions_model(**inputs)
     predicted_class_id = torch.argmax(outputs.logits, dim=-1).item()
+    print(f"Fix Suggestions - Predicted class ID: {predicted_class_id}")
+    if predicted_class_id >= len(fix_suggestions):
+        raise IndexError("Predicted class ID is out of range for fix suggestions.")
     return fix_suggestions[predicted_class_id]
 
 def detect_vulnerability(code):
@@ -49,6 +60,8 @@ def detect_vulnerability(code):
     with torch.no_grad():
         outputs = vulnerability_model(**inputs)
     predicted_class_id = torch.argmax(outputs.logits, dim=-1).item()
+    if predicted_class_id >= len(vulnerability_set):
+        raise IndexError("Predicted class ID is out of range for vulnerability set.")
     return vulnerability_set[predicted_class_id]
 
 def analyze_code(java_code):
