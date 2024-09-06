@@ -69,6 +69,10 @@ def analyze_code(java_code):
 
     return results
 
+@app.get("/")
+async def root():
+    return {"message": "API is running. Use POST /analyze to analyze code."}
+
 @app.post("/analyze")
 async def analyze(request: CodeRequest):
     try:
