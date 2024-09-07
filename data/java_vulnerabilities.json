@@ -1,0 +1,242 @@
+[
+    {
+        "code": "public class HardcodedCredentials { public static void main(String[] args) { String username = \"admin\"; String password = \"password123\"; if (authenticate(username, password)) { System.out.println(\"Authentication successful.\"); } else { System.out.println(\"Authentication failed.\"); } } private static boolean authenticate(String username, String password) { return \"admin\".equals(username) && \"password123\".equals(password); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "public class HardcodedCredentials2 { public static void main(String[] args) { String apiKey = \"API_KEY_123456\"; System.out.println(apiKey); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "public class DBConnection { private static final String DB_PASSWORD = \"db_secret_pass\"; public void connect() { String password = DB_PASSWORD; System.out.println(\"Connecting to DB with password: \" + password); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "public class FTPConnection { private static final String FTP_USERNAME = \"ftp_user\"; private static final String FTP_PASSWORD = \"ftp_password\"; public void connect() { System.out.println(FTP_USERNAME + \":\" + FTP_PASSWORD); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "public class SecureKeyTest { public static void main(String[] args) { String secretKey = \"supersecretkey\"; System.out.println(secretKey); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "public class CredentialCheck { private static final String SERVICE_USER = \"serviceuser\"; private static final String SERVICE_PASS = \"mypassword\"; public boolean check(String user, String pass) { return SERVICE_USER.equals(user) && SERVICE_PASS.equals(pass); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "import java.io.FileWriter; import java.io.IOException; public class InsecureDataStorage { public static void main(String[] args) { String sensitiveData = \"Sensitive Information\"; try (FileWriter writer = new FileWriter(\"sensitive_data.txt\")) { writer.write(sensitiveData); } catch (IOException e) { e.printStackTrace(); } } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "import java.io.FileOutputStream; public class InsecureStorageExample { public static void main(String[] args) { String secretData = \"top_secret_data\"; try (FileOutputStream fos = new FileOutputStream(\"secret_data.txt\")) { fos.write(secretData.getBytes()); } catch (Exception e) { e.printStackTrace(); } } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "import java.io.BufferedWriter; import java.io.FileWriter; public class StoreDataInsecurely { public static void main(String[] args) { String confidentialData = \"confidential_info\"; try (BufferedWriter writer = new BufferedWriter(new FileWriter(\"confidential.txt\"))) { writer.write(confidentialData); } catch (Exception e) { e.printStackTrace(); } } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "import java.io.FileWriter; import java.io.IOException; public class SaveSensitiveInfo { public static void main(String[] args) { String sensitiveInfo = \"SensitiveUserInfo\"; try (FileWriter writer = new FileWriter(\"userinfo.txt\")) { writer.write(sensitiveInfo); } catch (IOException e) { e.printStackTrace(); } } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "import java.io.File; import java.io.PrintWriter; public class InsecureDataLogger { public static void main(String[] args) { File file = new File(\"data.txt\"); try (PrintWriter pw = new PrintWriter(file)) { pw.println(\"Sensitive data logged\"); } catch (Exception e) { e.printStackTrace(); } } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "import java.io.File; import java.io.FileWriter; public class UnencryptedStorage { public static void main(String[] args) { File file = new File(\"unencrypted_file.txt\"); try (FileWriter writer = new FileWriter(file)) { writer.write(\"unencrypted_data\"); } catch (Exception e) { e.printStackTrace(); } } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1 OR 1=1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = \" + userInput; PreparedStatement statement = connection.prepareStatement(query); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "import java.sql.Connection; import java.sql.Statement; public class SQLInjectionVulnerable { public static void query(String id) { try { Connection conn = DriverManager.getConnection(\"db_url\", \"user\", \"pass\"); Statement stmt = conn.createStatement(); String sql = \"SELECT * FROM users WHERE id = \" + id; stmt.executeQuery(sql); } catch (Exception e) { e.printStackTrace(); } } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "import java.sql.Connection; import java.sql.Statement; public class SQLQueryInjection { public static void execute(String userInput) { try { Connection connection = DriverManager.getConnection(\"url\", \"user\", \"pass\"); String query = \"SELECT * FROM accounts WHERE accountID = \" + userInput; Statement stmt = connection.createStatement(); stmt.executeQuery(query); } catch (SQLException e) { e.printStackTrace(); } } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "import java.sql.Statement; public class UserLogin { public static void login(String username) { try { Statement stmt = connection.createStatement(); String query = \"SELECT * FROM logins WHERE username = '\" + username + \"'\"; stmt.executeQuery(query); } catch (SQLException e) { e.printStackTrace(); } } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "import java.sql.Statement; public class InjectionDemo { public static void query(String input) { try { Statement stmt = connection.createStatement(); String sql = \"SELECT * FROM inventory WHERE product_id = \" + input; stmt.execute(sql); } catch (SQLException e) { e.printStackTrace(); } } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "import java.sql.Statement; public class SQLInjectionRisk { public static void main(String[] args) { String userInput = \"1001 OR 1=1\"; String query = \"SELECT * FROM orders WHERE order_id = \" + userInput; stmt.executeQuery(query); } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "import java.util.Random; public class InsecureRandom { public static void main(String[] args) { Random random = new Random(); int randomNumber = random.nextInt(1000); System.out.println(\"Random number: \" + randomNumber); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "import java.util.Random; public class UnsecureRandomNumberGenerator { public static void main(String[] args) { Random rand = new Random(); System.out.println(rand.nextInt()); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "import java.util.Random; public class UnpredictableRandom { public static void main(String[] args) { Random random = new Random(); System.out.println(\"Random value: \" + random.nextDouble()); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "import java.util.Random; public class WeakRandomGeneration { public static void main(String[] args) { Random rand = new Random(); int value = rand.nextInt(100); System.out.println(\"Generated number: \" + value); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "import java.util.Random; public class RandomDemo { public static void main(String[] args) { Random random = new Random(); System.out.println(\"Unsecure random number: \" + random.nextLong()); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "import java.util.Random; public class RandomValue { public static void main(String[] args) { Random rand = new Random(); System.out.println(rand.nextFloat()); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "import java.io.File; public class InsecureFilePermissions { public static void main(String[] args) { File file = new File(\"insecure_file.txt\"); try { if (file.createNewFile()) { file.setReadable(true, false); file.setWritable(true, false); file.setExecutable(true, false); } } catch (IOException e) { e.printStackTrace(); } } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "import java.io.File; public class UnsafeFilePermissions { public static void main(String[] args) { File file = new File(\"unsafe_file.txt\"); file.setReadable(true); file.setWritable(true); file.setExecutable(true); } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "import java.io.File; public class IncorrectFilePermissions { public static void main(String[] args) { File file = new File(\"wrong_permissions.txt\"); file.setReadable(true, false); file.setWritable(true, false); } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "import java.io.File; public class BadFilePermissions { public static void main(String[] args) { File file = new File(\"file.txt\"); file.setReadable(true); file.setWritable(true); file.setExecutable(true); } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "import java.io.File; public class FilePermissionExample { public static void main(String[] args) { File file = new File(\"file.txt\"); file.setReadable(true); file.setWritable(true); } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "import java.io.File; public class PermissionsIssue { public static void main(String[] args) { File file = new File(\"permissions.txt\"); file.setExecutable(true); } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "public class NoVulnerabilityExample { public static void main(String[] args) { int x = 5; int y = 10; System.out.println(x + y); } }",
+        "label": "no_vulnerability"
+    },
+    {
+        "code": "public class NoVulnCase { public static void main(String[] args) { String message = \"Hello, World!\"; System.out.println(message); } }",
+        "label": "no_vulnerability"
+    },
+    {
+        "code": "public class SimpleProgram { public static void main(String[] args) { for (int i = 0; i < 10; i++) { System.out.println(\"Counting: \" + i); } } }",
+        "label": "no_vulnerability"
+    },
+    {
+        "code": "public class SafeCode { public static void main(String[] args) { int[] arr = {1, 2, 3, 4}; for (int i : arr) { System.out.println(i); } } }",
+        "label": "no_vulnerability"
+    },
+    {
+        "code": "public class BasicExample { public static void main(String[] args) { String str = \"Sample\"; int length = str.length(); System.out.println(length); } }",
+        "label": "no_vulnerability"
+    },
+    {
+        "code": "public class NoIssuesCode { public static void main(String[] args) { double result = Math.sqrt(144); System.out.println(result); } }",
+        "label": "no_vulnerability"
+    },
+    {
+        "code": "public class MemoryLeakExample { private static List<String> data = new ArrayList<>(); public static void main(String[] args) { for (int i = 0; i < 1000000; i++) { data.add(\"Memory Leak\"); } } }",
+        "label": "memory_leak"
+    },
+    {
+        "code": "import java.util.ArrayList; import java.util.List; public class MemoryLeak { List<String> list = new ArrayList<>(); public void addData() { while (true) { list.add(\"leak\"); } } }",
+        "label": "memory_leak"
+    },
+    {
+        "code": "public class MemoryLeak2 { List<Object> bigList = new ArrayList<>(); public void process() { for (int i = 0; i < Integer.MAX_VALUE; i++) { bigList.add(new byte[1024 * 1024]); } } }",
+        "label": "memory_leak"
+    },
+    {
+        "code": "import java.util.List; import java.util.ArrayList; public class LeakDemo { public static void main(String[] args) { List<byte[]> leak = new ArrayList<>(); for (int i = 0; i < 1000000; i++) { leak.add(new byte[1024]); } } }",
+        "label": "memory_leak"
+    },
+    {
+        "code": "import java.util.HashMap; import java.util.Map; public class MemoryLeakWithHashMap { private static Map<Integer, String> cache = new HashMap<>(); public static void main(String[] args) { for (int i = 0; i < 1000000; i++) { cache.put(i, \"leak\"); } } }",
+        "label": "memory_leak"
+    },
+    {
+        "code": "import java.util.ArrayList; import java.util.List; public class MemoryLeakSimulation { List<Object> memoryHog = new ArrayList<>(); public void run() { while (true) { memoryHog.add(new Object()); } } }",
+        "label": "memory_leak"
+    },
+    {
+        "code": "public class DataObfuscation { public static void main(String[] args) { String sensitiveData = \"Sensitive Info\"; System.out.println(sensitiveData); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "public class UnobfuscatedData { public static void main(String[] args) { String password = \"mypassword\"; System.out.println(password); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "public class SensitiveInfoExample { public static void main(String[] args) { String secret = \"12345\"; System.out.println(secret); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "public class UnsecuredInformation { public static void main(String[] args) { String privateKey = \"PRIVATE_KEY\"; System.out.println(privateKey); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "public class ExposureOfSensitiveData { public static void main(String[] args) { String creditCard = \"4111111111111111\"; System.out.println(creditCard); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "public class LogSensitiveData { public static void main(String[] args) { String sensitiveData = \"Confidential Information\"; System.out.println(sensitiveData); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "import java.security.MessageDigest; import java.security.NoSuchAlgorithmException; public class NoHashing { public static void main(String[] args) { String password = \"mypassword\"; System.out.println(password); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "public class NoHashPassword { public static void main(String[] args) { String pass = \"superSecret\"; System.out.println(pass); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "public class UnhashedKey { public static void main(String[] args) { String key = \"api_key_123\"; System.out.println(key); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "public class HashingExample { public static void main(String[] args) { String key = \"important_key\"; System.out.println(key); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "public class KeyStorage { public static void main(String[] args) { String privateKey = \"private_key_123\"; System.out.println(privateKey); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "public class UnencryptedKey { public static void main(String[] args) { String encryptionKey = \"encryption_key\"; System.out.println(encryptionKey); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "import android.os.Build; public class RootCheck { public static boolean isRooted() { return Build.TAGS != null && Build.TAGS.contains(\"test-keys\"); } }",
+        "label": "rooted_device_access"
+    },
+    {
+        "code": "import java.io.File; public class RootAccess { public static boolean isDeviceRooted() { return new File(\"/system/app/Superuser.apk\").exists(); } }",
+        "label": "rooted_device_access"
+    },
+    {
+        "code": "import java.io.File; public class RootedDevice { public static boolean isRooted() { String[] paths = { \"/sbin/su\", \"/system/bin/su\", \"/system/xbin/su\" }; for (String path : paths) { if (new File(path).exists()) { return true; } } return false; } }",
+        "label": "rooted_device_access"
+    },
+    {
+        "code": "import android.os.Build; public class RootDetection { public static boolean isRooted() { return Build.TAGS != null && Build.TAGS.contains(\"test-keys\"); } }",
+        "label": "rooted_device_access"
+    },
+    {
+        "code": "import java.io.File; public class CheckRoot { public static boolean isRooted() { return new File(\"/system/app/Superuser.apk\").exists(); } }",
+        "label": "rooted_device_access"
+    },
+    {
+        "code": "public class RootDetectionExample { public static boolean isRooted() { return new File(\"/system/xbin/su\").exists(); } }",
+        "label": "rooted_device_access"
+    }
+]
