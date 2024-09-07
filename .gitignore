@@ -1,6 +1,6 @@
 .idea
 __pycache__
-data
-src
 models
-test
+src/fix_suggestions/results
+src/severity_scoring/results
+src/vulnerability_detection/results
