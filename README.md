@@ -104,4 +104,4 @@ The models are hosted on Hugging Face under the repository `BhardwajArjit/static
   
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
