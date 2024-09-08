@@ -21,7 +21,16 @@ vulnerability_tokenizer = AutoTokenizer.from_pretrained("BhardwajArjit/static_an
 
 # Define label sets
 severity_set = ['Safe', 'Low', 'Medium', 'High']
-vulnerability_set = ['hardcoded_credentials', 'insecure_data_storage', 'sql_injection', 'insecure_random', 'insecure_file_permissions']
+vulnerability_set = [
+    'hardcoded_credentials',
+    'insecure_data_storage',
+    'sql_injection',
+    'insecure_random',
+    'insecure_file_permissions',
+    'memory_leaks',
+    'lack_of_data_obfuscation',
+    'lack_of_hashing'
+]
 fix_suggestions = [
     "Use parameterized queries to prevent SQL injection.",
     "Sanitize and validate user input.",
