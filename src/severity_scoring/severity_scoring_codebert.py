@@ -1,6 +1,12 @@
 from transformers import RobertaTokenizer, RobertaForSequenceClassification, Trainer, TrainingArguments
 from datasets import load_dataset, load_metric
 import numpy as np
+import warnings
+from evaluate import load
+
+# Suppress specific warnings
+warnings.filterwarnings("ignore", category=FutureWarning, message=".*clean_up_tokenization_spaces.*")
+warnings.filterwarnings("ignore", category=FutureWarning, message=".*evaluation_strategy.*")
 
 # Load the dataset
 def load_severity_data():
@@ -42,9 +48,8 @@ training_args = TrainingArguments(
     gradient_accumulation_steps=2,
 )
 
-
 # Define metric for evaluation
-metric = load_metric("accuracy")
+metric = load("accuracy")
 
 def compute_metrics(p):
     preds = np.argmax(p.predictions, axis=1)

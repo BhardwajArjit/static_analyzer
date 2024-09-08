@@ -3,6 +3,11 @@ from transformers import RobertaTokenizer, RobertaForSequenceClassification, Tra
 from datasets import DatasetDict, Dataset
 import pandas as pd
 from evaluate import load
+import warnings
+
+# Suppress specific warnings
+warnings.filterwarnings("ignore", category=FutureWarning, message=".*clean_up_tokenization_spaces.*")
+warnings.filterwarnings("ignore", category=FutureWarning, message=".*evaluation_strategy.*")
 
 # Load dataset from CSV files
 def load_fix_suggestion_data():
