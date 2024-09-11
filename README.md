@@ -1,6 +1,6 @@
 # Static Code Analyzer for Android Vulnerabilities
 
-This project aims to provide a comprehensive static analysis framework for detecting common vulnerabilities in Android code (currently only for Java). It uses machine learning models fine-tuned on CodeBERT to detect security issues, suggest fixes, and classify the severity of the vulnerabilities.
+This project provides a **comprehensive static analysis framework** for detecting common vulnerabilities in Android code (currently only for Java). It uses **machine learning models fine-tuned on CodeBERT** to detect security issues, suggest fixes, and classify the severity of the vulnerabilities.
 
 ## Features
 
@@ -16,6 +16,12 @@ This project aims to provide a comprehensive static analysis framework for detec
   - Medium
   - High
 - **Fix Suggestions**: Provides automatic suggestions to fix the identified vulnerabilities.
+
+## Why Choose Us?
+
+Unlike traditional static analysis tools like **SonarQube**, **MobSF**, **Android Lint**, and **Snyk**, our **CodeBERT-based approach** offers significant advantages. It leverages **machine learning** to go beyond rule-based systems, providing **context-aware** analysis, reducing false positives, and offering **customized, accurate fix suggestions**. 
+
+To learn more about how our approach compares to existing tools and why it provides a better solution for Android security, see the detailed [Why Choose Us?](why_choose_us.md) file.
 
 ## Setup
 
