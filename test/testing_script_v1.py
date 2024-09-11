@@ -23,7 +23,9 @@ vulnerability_set = [
     'insecure_file_permissions',
     'memory_leaks',
     'lack_of_data_obfuscation',
-    'lack_of_hashing'
+    'lack_of_hashing',
+    'rooted_device_access',
+    'no_vulnerability'
 ]
 fix_suggestions = [
     "Use parameterized queries to prevent SQL injection.",
