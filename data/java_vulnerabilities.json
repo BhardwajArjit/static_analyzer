@@ -145,27 +145,27 @@
     },
     {
         "code": "public class MemoryLeakExample { private static List<String> data = new ArrayList<>(); public static void main(String[] args) { for (int i = 0; i < 1000000; i++) { data.add(\"Memory Leak\"); } } }",
-        "label": "memory_leak"
+        "label": "memory_leaks"
     },
     {
         "code": "import java.util.ArrayList; import java.util.List; public class MemoryLeak { List<String> list = new ArrayList<>(); public void addData() { while (true) { list.add(\"leak\"); } } }",
-        "label": "memory_leak"
+        "label": "memory_leaks"
     },
     {
         "code": "public class MemoryLeak2 { List<Object> bigList = new ArrayList<>(); public void process() { for (int i = 0; i < Integer.MAX_VALUE; i++) { bigList.add(new byte[1024 * 1024]); } } }",
-        "label": "memory_leak"
+        "label": "memory_leaks"
     },
     {
         "code": "import java.util.List; import java.util.ArrayList; public class LeakDemo { public static void main(String[] args) { List<byte[]> leak = new ArrayList<>(); for (int i = 0; i < 1000000; i++) { leak.add(new byte[1024]); } } }",
-        "label": "memory_leak"
+        "label": "memory_leaks"
     },
     {
         "code": "import java.util.HashMap; import java.util.Map; public class MemoryLeakWithHashMap { private static Map<Integer, String> cache = new HashMap<>(); public static void main(String[] args) { for (int i = 0; i < 1000000; i++) { cache.put(i, \"leak\"); } } }",
-        "label": "memory_leak"
+        "label": "memory_leaks"
     },
     {
         "code": "import java.util.ArrayList; import java.util.List; public class MemoryLeakSimulation { List<Object> memoryHog = new ArrayList<>(); public void run() { while (true) { memoryHog.add(new Object()); } } }",
-        "label": "memory_leak"
+        "label": "memory_leaks"
     },
     {
         "code": "public class DataObfuscation { public static void main(String[] args) { String sensitiveData = \"Sensitive Info\"; System.out.println(sensitiveData); } }",
@@ -238,5 +238,165 @@
     {
         "code": "public class RootDetectionExample { public static boolean isRooted() { return new File(\"/system/xbin/su\").exists(); } }",
         "label": "rooted_device_access"
+    },
+    {
+        "code": "class HardcodedCredentials extends StatelessWidget { @override Widget build(BuildContext context) { final String username = 'admin'; final String password = 'password123'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { authenticate(username, password); }, child: Text('Authenticate'), ), ), ); } void authenticate(String username, String password) { if (username == 'admin' && password == 'password123') { print('Authentication successful.'); } else { print('Authentication failed.'); } } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "class HardcodedAPIKey extends StatelessWidget { @override Widget build(BuildContext context) { final String apiKey = 'API_KEY_123456'; return Scaffold( body: Center( child: Text('API Key: $apiKey'), ), ); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "class HardcodedSecrets extends StatelessWidget { @override Widget build(BuildContext context) { final String dbPassword = 'db_secret_pass'; return Scaffold( body: Center( child: Text('DB Password: $dbPassword'), ), ); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "class HardcodedFTP extends StatelessWidget { @override Widget build(BuildContext context) { final String ftpUsername = 'ftp_user'; final String ftpPassword = 'ftp_password'; return Scaffold( body: Center( child: Text('FTP: $ftpUsername:$ftpPassword'), ), ); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "class HardcodedKey extends StatelessWidget { @override Widget build(BuildContext context) { final String secretKey = 'supersecretkey'; return Scaffold( body: Center( child: Text('Secret Key: $secretKey'), ), ); } }",
+        "label": "hardcoded_credentials"
+    },
+    {
+        "code": "class InsecureDataStorage extends StatelessWidget { @override Widget build(BuildContext context) { final String sensitiveData = 'Sensitive Information'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { saveData(sensitiveData); }, child: Text('Save Data'), ), ), ); } void saveData(String data) { // Simulating saving data to a file } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "class SaveData extends StatelessWidget { @override Widget build(BuildContext context) { final String secretData = 'top_secret_data'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { saveToFile(secretData); }, child: Text('Save Secret Data'), ), ), ); } void saveToFile(String data) { // Simulating saving data to a file } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "class InsecureStorage extends StatelessWidget { @override Widget build(BuildContext context) { final String confidentialData = 'confidential_info'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { saveConfidentialData(confidentialData); }, child: Text('Save Confidential Data'), ), ), ); } void saveConfidentialData(String data) { // Simulating saving data to a file } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "class SensitiveInfoStorage extends StatelessWidget { @override Widget build(BuildContext context) { final String sensitiveInfo = 'SensitiveUserInfo'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { saveSensitiveInfo(sensitiveInfo); }, child: Text('Save Sensitive Info'), ), ), ); } void saveSensitiveInfo(String data) { // Simulating saving data to a file } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "class InsecureFile extends StatelessWidget { @override Widget build(BuildContext context) { final String data = 'Sensitive data logged'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { logSensitiveData(data); }, child: Text('Log Sensitive Data'), ), ), ); } void logSensitiveData(String data) { // Simulating logging sensitive data to a file } }",
+        "label": "insecure_data_storage"
+    },
+    {
+        "code": "class SQLInjectionExample extends StatelessWidget { @override Widget build(BuildContext context) { final String userInput = '1 OR 1=1'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { executeQuery(userInput); }, child: Text('Execute Query'), ), ), ); } void executeQuery(String userInput) { // Simulating SQL query execution } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "class SQLInjectionDemo extends StatelessWidget { @override Widget build(BuildContext context) { final String id = 'some_id'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { performQuery(id); }, child: Text('Perform Query'), ), ), ); } void performQuery(String id) { // Simulating SQL query execution } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "class SQLInjectionTest extends StatelessWidget { @override Widget build(BuildContext context) { final String input = 'malicious_input'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { queryDatabase(input); }, child: Text('Query Database'), ), ), ); } void queryDatabase(String input) { // Simulating SQL query execution } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "class SQLInjectionRisk extends StatelessWidget { @override Widget build(BuildContext context) { final String userInput = 'user_input'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { queryDatabase(userInput); }, child: Text('Query Database'), ), ), ); } void queryDatabase(String input) { // Simulating SQL query execution } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "class SQLQueryInjection extends StatelessWidget { @override Widget build(BuildContext context) { final String id = 'test_id'; return Scaffold( body: Center( child: ElevatedButton( onPressed: () { executeSQLQuery(id); }, child: Text('Execute SQL Query'), ), ), ); } void executeSQLQuery(String id) { // Simulating SQL query execution } }",
+        "label": "sql_injection"
+    },
+    {
+        "code": "class InsecureRandom extends StatelessWidget { @override Widget build(BuildContext context) { final random = Random(); final int randomNumber = random.nextInt(1000); return Scaffold( body: Center( child: Text('Random number: $randomNumber'), ), ); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "class UnsecureRandomNumberGenerator extends StatelessWidget { @override Widget build(BuildContext context) { final rand = Random(); final int number = rand.nextInt(); return Scaffold( body: Center( child: Text('Random number: $number'), ), ); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "class UnpredictableRandom extends StatelessWidget { @override Widget build(BuildContext context) { final random = Random(); final double value = random.nextDouble(); return Scaffold( body: Center( child: Text('Random value: $value'), ), ); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "class WeakRandomGeneration extends StatelessWidget { @override Widget build(BuildContext context) { final rand = Random(); final int value = rand.nextInt(100); return Scaffold( body: Center( child: Text('Generated number: $value'), ), ); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "class RandomDemo extends StatelessWidget { @override Widget build(BuildContext context) { final random = Random(); final longNumber = random.nextLong(); return Scaffold( body: Center( child: Text('Unsecure random number: $longNumber'), ), ); } }",
+        "label": "insecure_random"
+    },
+    {
+        "code": "class InsecureFilePermissions extends StatelessWidget { @override Widget build(BuildContext context) { final file = File('insecure_file.txt'); return Scaffold( body: Center( child: ElevatedButton( onPressed: () { setPermissions(file); }, child: Text('Set File Permissions'), ), ), ); } void setPermissions(File file) { // Simulating setting file permissions } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "class UnsafeFilePermissions extends StatelessWidget { @override Widget build(BuildContext context) { final file = File('unsafe_file.txt'); return Scaffold( body: Center( child: ElevatedButton( onPressed: () { setFilePermissions(file); }, child: Text('Set File Permissions'), ), ), ); } void setFilePermissions(File file) { // Simulating setting file permissions } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "class IncorrectFilePermissions extends StatelessWidget { @override Widget build(BuildContext context) { final file = File('incorrect_permissions.txt'); return Scaffold( body: Center( child: ElevatedButton( onPressed: () { modifyPermissions(file); }, child: Text('Modify File Permissions'), ), ), ); } void modifyPermissions(File file) { // Simulating modifying file permissions } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "class UnsecureFilePermissions extends StatelessWidget { @override Widget build(BuildContext context) { final file = File('unsecure_file.txt'); return Scaffold( body: Center( child: ElevatedButton( onPressed: () { adjustPermissions(file); }, child: Text('Adjust File Permissions'), ), ), ); } void adjustPermissions(File file) { // Simulating adjusting file permissions } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "class RiskyFilePermissions extends StatelessWidget { @override Widget build(BuildContext context) { final file = File('risky_file.txt'); return Scaffold( body: Center( child: ElevatedButton( onPressed: () { updatePermissions(file); }, child: Text('Update File Permissions'), ), ), ); } void updatePermissions(File file) { // Simulating updating file permissions } }",
+        "label": "insecure_file_permissions"
+    },
+    {
+        "code": "class MemoryLeakExample extends StatefulWidget { @override _MemoryLeakExampleState createState() => _MemoryLeakExampleState(); } class _MemoryLeakExampleState extends State<MemoryLeakExample> { List<String> _data = []; @override void initState() { super.initState(); fetchData(); } void fetchData() { // Simulating fetching large amounts of data _data.addAll(List.generate(1000000, (index) => 'Data $index')); } @override Widget build(BuildContext context) { return Scaffold( body: Center( child: Text('Data Count: ${_data.length}'), ), ); } }",
+        "label": "memory_leaks"
+    },
+    {
+        "code": "class MemoryLeak extends StatefulWidget { @override _MemoryLeakState createState() => _MemoryLeakState(); } class _MemoryLeakState extends State<MemoryLeak> { List<int> numbers = []; @override void initState() { super.initState(); createLargeList(); } void createLargeList() { // Simulating creating a large list numbers.addAll(List.generate(1000000, (index) => index)); } @override Widget build(BuildContext context) { return Scaffold( body: Center( child: Text('Numbers Count: ${numbers.length}'), ), ); } }",
+        "label": "memory_leaks"
+    },
+    {
+        "code": "class PotentialMemoryLeak extends StatefulWidget { @override _PotentialMemoryLeakState createState() => _PotentialMemoryLeakState(); } class _PotentialMemoryLeakState extends State<PotentialMemoryLeak> { List<String> items = []; @override void initState() { super.initState(); loadItems(); } void loadItems() { // Simulating loading items items.addAll(List.generate(1000000, (index) => 'Item $index')); } @override Widget build(BuildContext context) { return Scaffold( body: Center( child: Text('Items Count: ${items.length}'), ), ); } }",
+        "label": "memory_leaks"
+    },
+    {
+        "code": "class LeakDemo extends StatefulWidget { @override _LeakDemoState createState() => _LeakDemoState(); } class _LeakDemoState extends State<LeakDemo> { List<String> list = []; @override void initState() { super.initState(); generateLargeData(); } void generateLargeData() { // Simulating large data generation list.addAll(List.generate(1000000, (index) => 'Data $index')); } @override Widget build(BuildContext context) { return Scaffold( body: Center( child: Text('List Size: ${list.length}'), ), ); } }",
+        "label": "memory_leaks"
+    },
+    {
+        "code": "class LeakTest extends StatefulWidget { @override _LeakTestState createState() => _LeakTestState(); } class _LeakTestState extends State<LeakTest> { List<String> largeData = []; @override void initState() { super.initState(); allocateMemory(); } void allocateMemory() { // Simulating memory allocation largeData.addAll(List.generate(1000000, (index) => 'Data $index')); } @override Widget build(BuildContext context) { return Scaffold( body: Center( child: Text('Data Length: ${largeData.length}'), ), ); } }",
+        "label": "memory_leaks"
+    },
+    {
+        "code": "class DataObfuscation extends StatelessWidget { @override Widget build(BuildContext context) { final String sensitiveData = 'Sensitive Information'; return Scaffold( body: Center( child: Text('Data: $sensitiveData'), ), ); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "class SensitiveDataDisplay extends StatelessWidget { @override Widget build(BuildContext context) { final String data = 'Sensitive Data'; return Scaffold( body: Center( child: Text('Display Data: $data'), ), ); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "class ExposedData extends StatelessWidget { @override Widget build(BuildContext context) { final String userData = 'User data'; return Scaffold( body: Center( child: Text('User Data: $userData'), ), ); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "class PlainData extends StatelessWidget { @override Widget build(BuildContext context) { final String unencryptedData = 'Unencrypted Data'; return Scaffold( body: Center( child: Text('Unencrypted Data: $unencryptedData'), ), ); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "class UnmaskedData extends StatelessWidget { @override Widget build(BuildContext context) { final String dataToShow = 'Unmasked Data'; return Scaffold( body: Center( child: Text('Data: $dataToShow'), ), ); } }",
+        "label": "lack_of_data_obfuscation"
+    },
+    {
+        "code": "class NoHashing extends StatelessWidget { @override Widget build(BuildContext context) { final String password = 'password123'; return Scaffold( body: Center( child: Text('Password: $password'), ), ); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "class UnhashedPassword extends StatelessWidget { @override Widget build(BuildContext context) { final String password = 'my_password'; return Scaffold( body: Center( child: Text('Password: $password'), ), ); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "class NoHashingExample extends StatelessWidget { @override Widget build(BuildContext context) { final String sensitiveData = 'sensitive_info'; return Scaffold( body: Center( child: Text('Sensitive Data: $sensitiveData'), ), ); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "class PlainPassword extends StatelessWidget { @override Widget build(BuildContext context) { final String plainPassword = 'plain_password'; return Scaffold( body: Center( child: Text('Password: $plainPassword'), ), ); } }",
+        "label": "lack_of_hashing"
+    },
+    {
+        "code": "class DataWithoutHashing extends StatelessWidget { @override Widget build(BuildContext context) { final String confidentialData = 'confidential'; return Scaffold( body: Center( child: Text('Confidential Data: $confidentialData'), ), ); } }",
+        "label": "lack_of_hashing"
     }
 ]
