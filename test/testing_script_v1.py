@@ -27,13 +27,26 @@ vulnerability_set = [
     'rooted_device_access',
     'no_vulnerability'
 ]
+# fix_suggestions = [
+#     "Use parameterized queries to prevent SQL injection.",
+#     "Sanitize and validate user input.",
+#     "Use prepared statements for secure database queries.",
+#     "Ensure proper exception handling and logging.",
+#     "No fix needed."
+# ]
+
 fix_suggestions = [
     "Use parameterized queries to prevent SQL injection.",
-    "Sanitize and validate user input.",
-    "Use prepared statements for secure database queries.",
-    "Ensure proper exception handling and logging.",
+    "Ensure encryption for sensitive data before storing it.",
+    "Externalize sensitive information such as credentials to secure storage or environment variables.",
+    "Use SecureRandom to generate random numbers for security-sensitive operations.",
+    "Ensure that file permissions are restricted to the owner only.",
+    "Use a secure random number generator.",
+    "Externalize sensitive information such as API keys to environment variables or secure storage.",
+    "Ensure file permissions are restricted to authorized users only."
     "No fix needed."
 ]
+
 
 # Function to classify the severity of a Java code snippet
 def classify_severity(code):

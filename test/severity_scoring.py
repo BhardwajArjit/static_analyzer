@@ -21,7 +21,7 @@ def classify_severity(code):
     return predicted_class_id
 
 # Example Java code snippet
-example_code = """
+java_code = """
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,11 +42,62 @@ public class SQLInjectionExample {
 }
 """
 
+dart_code = """
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Rooted Device Access Check')),
+        body: Center(
+          child: RootCheckButton(),
+        ),
+      ),
+    );
+  }
+}
+
+class RootCheckButton extends StatelessWidget {
+  static const platform = MethodChannel('com.example/root_check');
+
+  Future<void> _checkRoot() async {
+    try {
+      final bool isRooted = await platform.invokeMethod('isRooted');
+      if (isRooted) {
+        print('Device is rooted');
+      } else {
+        print('Device is not rooted');
+      }
+    } on PlatformException catch (e) {
+      print("Failed to check root status: '${e.message}'.");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: _checkRoot,
+      child: Text('Check if Device is Rooted'),
+    );
+  }
+}
+"""
+
 # Make a prediction
-predicted_severity_id = classify_severity(example_code)
+java_predicted_severity_id = classify_severity(java_code)
+dart_predicted_severity_id = classify_severity(dart_code)
 
 # Map label id back to severity label
 severity_set = ['Safe', 'Low', 'Medium', 'High']
-predicted_severity = severity_set[predicted_severity_id]
+java_predicted_severity = severity_set[dart_predicted_severity_id]
+dart_predicted_severity = severity_set[dart_predicted_severity_id]
 
-print(f"Predicted severity level: {predicted_severity}")
+print(f"Predicted severity level: {java_predicted_severity}")
+print(f"Predicted severity level: {dart_predicted_severity}")

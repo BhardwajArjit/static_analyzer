@@ -21,7 +21,7 @@ def generate_fix_suggestions(code):
     return predicted_class_id
 
 # Example Java code snippet
-example_code = """
+java_code = """
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,17 +42,73 @@ public class SQLInjectionExample {
 }
 """
 
+dart_code = """
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Rooted Device Access Check')),
+        body: Center(
+          child: RootCheckButton(),
+        ),
+      ),
+    );
+  }
+}
+
+class RootCheckButton extends StatelessWidget {
+  static const platform = MethodChannel('com.example/root_check');
+
+  Future<void> _checkRoot() async {
+    try {
+      final bool isRooted = await platform.invokeMethod('isRooted');
+      if (isRooted) {
+        print('Device is rooted');
+      } else {
+        print('Device is not rooted');
+      }
+    } on PlatformException catch (e) {
+      print("Failed to check root status: '${e.message}'.");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: _checkRoot,
+      child: Text('Check if Device is Rooted'),
+    );
+  }
+}
+"""
+
 # Make a prediction
-predicted_fix_id = generate_fix_suggestions(example_code)
+java_predicted_fix_id = generate_fix_suggestions(java_code)
+dart_predicted_fix_id = generate_fix_suggestions(dart_code)
 
 # Map label id back to fix suggestion
 fix_suggestions = [
     "Use parameterized queries to prevent SQL injection.",
-    "Sanitize and validate user input.",
-    "Use prepared statements for secure database queries.",
-    "Ensure proper exception handling and logging.",
+    "Ensure encryption for sensitive data before storing it.",
+    "Externalize sensitive information such as credentials to secure storage or environment variables.",
+    "Use SecureRandom to generate random numbers for security-sensitive operations.",
+    "Ensure that file permissions are restricted to the owner only.",
+    "Use a secure random number generator.",
+    "Externalize sensitive information such as API keys to environment variables or secure storage.",
+    "Ensure file permissions are restricted to authorized users only."
     "No fix needed."
 ]
-predicted_fix_suggestion = fix_suggestions[predicted_fix_id]
 
-print(f"Suggested fix: {predicted_fix_suggestion}")
+java_predicted_fix_suggestion = fix_suggestions[java_predicted_fix_id]
+dart_predicted_fix_suggestion = fix_suggestions[dart_predicted_fix_id]
+
+print(f"Suggested fix: {java_predicted_fix_suggestion}")
+print(f"Suggested fix: {dart_predicted_fix_suggestion}")

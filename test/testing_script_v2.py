@@ -28,13 +28,19 @@ vulnerability_set = [
     'insecure_file_permissions',
     'memory_leaks',
     'lack_of_data_obfuscation',
-    'lack_of_hashing'
+    'lack_of_hashing',
+    'rooted_device_access',
+    'no_vulnerability'
 ]
 fix_suggestions = [
     "Use parameterized queries to prevent SQL injection.",
-    "Sanitize and validate user input.",
-    "Use prepared statements for secure database queries.",
-    "Ensure proper exception handling and logging.",
+    "Ensure encryption for sensitive data before storing it.",
+    "Externalize sensitive information such as credentials to secure storage or environment variables.",
+    "Use SecureRandom to generate random numbers for security-sensitive operations.",
+    "Ensure that file permissions are restricted to the owner only.",
+    "Use a secure random number generator.",
+    "Externalize sensitive information such as API keys to environment variables or secure storage.",
+    "Ensure file permissions are restricted to authorized users only."
     "No fix needed."
 ]
 
@@ -74,7 +80,7 @@ def detect_vulnerability(code):
 
 
 # Consolidated analysis function
-def analyze_code(java_code):
+def analyze_code(code):
     with ThreadPoolExecutor() as executor:
         future_vulnerability = executor.submit(detect_vulnerability, java_code)
         future_severity = executor.submit(classify_severity, java_code)
@@ -116,6 +122,57 @@ if __name__ == "__main__":
     }
     """
 
+    dart_code = """
+    import 'package:flutter/material.dart';
+    import 'package:flutter/services.dart';
+
+    void main() {
+      runApp(MyApp());
+    }
+
+    class MyApp extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+        return MaterialApp(
+          home: Scaffold(
+            appBar: AppBar(title: Text('Rooted Device Access Check')),
+            body: Center(
+              child: RootCheckButton(),
+            ),
+          ),
+        );
+      }
+    }
+
+    class RootCheckButton extends StatelessWidget {
+      static const platform = MethodChannel('com.example/root_check');
+
+      Future<void> _checkRoot() async {
+        try {
+          final bool isRooted = await platform.invokeMethod('isRooted');
+          if (isRooted) {
+            print('Device is rooted');
+          } else {
+            print('Device is not rooted');
+          }
+        } on PlatformException catch (e) {
+          print("Failed to check root status: '${e.message}'.");
+        }
+      }
+
+      @override
+      Widget build(BuildContext context) {
+        return ElevatedButton(
+          onPressed: _checkRoot,
+          child: Text('Check if Device is Rooted'),
+        );
+      }
+    }
+    """
+
     # Analyze the code and print results
-    results = analyze_code(java_code)
-    print(results)
+    java_results = analyze_code(java_code)
+    print(java_results)
+
+    dart_results = analyze_code(dart_code)
+    print(dart_results)

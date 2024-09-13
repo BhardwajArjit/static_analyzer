@@ -1,18 +1,30 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Scanner;
 
-public class VulnerabilityTest {
+public class Test {
+
     public static void main(String[] args) {
-        String userInput = "1 OR 1=1";
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "password");
+        // Insecure File Permissions
+        File file = new File("sensitive_data.txt");
+        file.setReadable(true, false);
+        file.setWritable(true, false);
 
-            String query = "SELECT * FROM users WHERE id = " + userInput;
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.executeQuery();
-        } catch (SQLException e) {
+        // Rooted Device Access Simulation
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter device ID:");
+        String deviceId = scanner.nextLine();
+        System.out.println("Accessing device with ID: " + deviceId);
+
+        // Lack of Hashing
+        String data = "password123";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hash = md.digest(data.getBytes());
+            System.out.println("MD5 hash: " + new String(hash));
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
