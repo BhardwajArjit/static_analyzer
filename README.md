@@ -1,15 +1,20 @@
 # Static Code Analyzer for Android Vulnerabilities
 
-This project provides a **comprehensive static analysis framework** for detecting common vulnerabilities in Android code (currently only for Java). It uses **machine learning models fine-tuned on CodeBERT** to detect security issues, suggest fixes, and classify the severity of the vulnerabilities.
+This project provides a **comprehensive static analysis framework** for detecting common vulnerabilities in Android code (currently only for Java and Flutter/Dart). It uses **machine learning models fine-tuned on CodeBERT** to detect security issues, suggest fixes, and classify the severity of the vulnerabilities.
 
 ## Features
 
-- **Vulnerability Detection**: Detects five key types of vulnerabilities:
+- **Vulnerability Detection**: Detects ten key types of vulnerabilities:
   - Hardcoded Credentials
   - Insecure Data Storage
   - SQL Injection
   - Insecure Random
   - Insecure File Permissions
+  - Memory Leaks
+  - Lack of Data Obfuscation
+  - Lack of Hashing
+  - Rooted Device Access
+  - No Vulnerability
 - **Severity Scoring**: Classifies the severity of the detected vulnerabilities into:
   - Safe
   - Low
@@ -105,8 +110,8 @@ The models are hosted on Hugging Face under the repository `BhardwajArjit/static
 
 ## Known Limitations
 
-- Currently optimized for Java, but intended to be extended for Android development.
-- The model does not yet detect memory leaks.
+- Currently optimized for Java and Flutter/Dart, but intended to be extended for Android development.
+- The model does not perform multi-classification of vulnerabilities.
   
 ## License
 
