@@ -20,9 +20,9 @@ def load_fix_suggestion_data():
 
 # Encode labels
 def encode_labels(df):
-    unique_labels = df['fixed_code'].unique()
+    unique_labels = df['fix_suggestions'].unique()
     label_to_id = {label: i for i, label in enumerate(unique_labels)}
-    df['labels'] = df['fixed_code'].map(label_to_id)
+    df['labels'] = df['fix_suggestions'].map(label_to_id)
     return df, label_to_id
 
 # Convert DataFrame to Dataset

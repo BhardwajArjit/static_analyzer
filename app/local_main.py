@@ -35,13 +35,19 @@ vulnerability_set = [
     'insecure_file_permissions',
     'memory_leaks',
     'lack_of_data_obfuscation',
-    'lack_of_hashing'
+    'lack_of_hashing',
+    'rooted_device_access',
+    'no_vulnerability'
 ]
 fix_suggestions = [
     "Use parameterized queries to prevent SQL injection.",
-    "Sanitize and validate user input.",
-    "Use prepared statements for secure database queries.",
-    "Ensure proper exception handling and logging.",
+    "Ensure encryption for sensitive data before storing it.",
+    "Externalize sensitive information such as credentials to secure storage or environment variables.",
+    "Use SecureRandom to generate random numbers for security-sensitive operations.",
+    "Ensure that file permissions are restricted to the owner only.",
+    "Use a secure random number generator.",
+    "Externalize sensitive information such as API keys to environment variables or secure storage.",
+    "Ensure file permissions are restricted to authorized users only."
     "No fix needed."
 ]
 
