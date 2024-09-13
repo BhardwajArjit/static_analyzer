@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Data for severity scoring
-severity_data = {
+java_severity_training_data = {
     "code": [
         # SQL Injection vulnerability (High severity)
         "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1 OR 1=1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = \" + userInput; PreparedStatement statement = connection.prepareStatement(query); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
@@ -30,9 +30,37 @@ severity_data = {
     "severity": ["High", "Medium", "High", "Medium", "High", "Low", "Low", "Low"]
 }
 
+flutter_severity_training_data = {
+    "code": [
+        # SQL Injection vulnerability (High severity)
+        "import 'package:http/http.dart' as http; void fetchData(String userInput) async { var query = 'SELECT * FROM users WHERE id = ' + userInput; var response = await http.get(Uri.parse('http://example.com/data?query=$query')); print(response.body); }",
+
+        # Insecure Data Storage vulnerability (Medium severity)
+        "import 'dart:io'; class InsecureDataStorage { List<String> sensitiveData = []; void addData(String data) { sensitiveData.add(data); File('data.txt').writeAsStringSync(sensitiveData.join(', ')); } List<String> getData() { return sensitiveData; } }",
+
+        # Hardcoded Credentials vulnerability (High severity)
+        "class HardcodedCredentials { void login() { String username = 'admin'; String password = 'password123'; print('Login with username: $username and password: $password'); } }",
+
+        # Insecure Random Number Generation vulnerability (Medium severity)
+        "import 'dart:math'; class InsecureRandomExample { void generateRandomNumber() { var random = Random(); int insecureRandom = random.nextInt(100); print('Random number: $insecureRandom'); } }",
+
+        # Insecure File Permissions vulnerability (High severity)
+        "import 'dart:io'; class InsecureFilePermissions { void setPermissions() { var file = File('sensitive_data.txt'); file.writeAsStringSync('Sensitive data'); file.setLastAccessedSync(DateTime.now()); } }",
+
+        # Code that requires no changes (Low severity)
+        "import 'dart:math'; class SecureRandomExample { void generateRandomNumber() { var secureRandom = Random.secure(); int secureRandomNumber = secureRandom.nextInt(100); print('Secure random number: $secureRandomNumber'); } }",
+
+        # Code that requires no changes (None severity)
+        "import 'package:crypto/crypto.dart'; class SecureHashExample { void generateHash(String input) { var bytes = utf8.encode(input); var digest = sha256.convert(bytes); print('Hash: \$digest'); } }",
+
+        # Code that requires no changes (None severity)
+        "import 'package:http/http.dart' as http; void fetchSecureData() async { var response = await http.get(Uri.parse('http://example.com/data?userId=1')); print(response.body); }"
+    ],
+    "severity": ["High", "Medium", "High", "Medium", "High", "Low", "Low", "Low"]
+}
 
 # Data for fix suggestions
-fix_data = {
+java_fix_training_data = {
     "code": [
         # SQL Injection vulnerability (needs fix)
         "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1 OR 1=1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = \" + userInput; PreparedStatement statement = connection.prepareStatement(query); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
@@ -55,32 +83,79 @@ fix_data = {
         # Code that requires no changes (already secure)
         "import java.sql.Connection; import java.sql.PreparedStatement; import java.sql.SQLException; public class SecureSQL { public static void main(String[] args) { try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = ?\"; PreparedStatement stmt = connection.prepareStatement(query); stmt.setInt(1, 1); stmt.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }"
     ],
-    "fixed_code": [
-        # SQL Injection fix (use prepared statements)
-        "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = ?\"; PreparedStatement statement = connection.prepareStatement(query); statement.setString(1, userInput); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
+    "fix_suggestions": [
+        # SQL Injection fix suggestion
+        "Use parameterized queries to prevent SQL injection.",
 
-        # Insecure Data Storage fix (encrypt sensitive data)
-        "import java.util.ArrayList; import java.util.List; import javax.crypto.Cipher; import javax.crypto.KeyGenerator; import javax.crypto.SecretKey; public class SecureDataStorageExample { private List<String> sensitiveData = new ArrayList<>(); public void addData(String data) throws Exception { SecretKey key = KeyGenerator.getInstance(\"AES\").generateKey(); Cipher cipher = Cipher.getInstance(\"AES\"); cipher.init(Cipher.ENCRYPT_MODE, key); byte[] encryptedData = cipher.doFinal(data.getBytes()); sensitiveData.add(new String(encryptedData)); } public List<String> getData() { return sensitiveData; } }",
+        # Insecure Data Storage fix suggestion
+        "Ensure encryption for sensitive data before storing it.",
 
-        # Hardcoded Credentials fix (externalize credentials)
-        "import java.util.Properties; import java.io.InputStream; public class ExternalizedCredentials { public static void main(String[] args) { try (InputStream input = ClassLoader.getSystemResourceAsStream(\"config.properties\")) { Properties prop = new Properties(); prop.load(input); String username = prop.getProperty(\"username\"); String password = prop.getProperty(\"password\"); System.out.println(\"Login as: \" + username); } catch (Exception e) { e.printStackTrace(); } } }",
+        # Hardcoded Credentials fix suggestion
+        "Externalize sensitive information such as credentials to secure storage or environment variables.",
 
-        # Insecure Random Number Generation fix (use SecureRandom)
-        "import java.security.SecureRandom; public class SecureRandomExample { public static void main(String[] args) { SecureRandom secureRandom = new SecureRandom(); int secureNumber = secureRandom.nextInt(); System.out.println(\"Secure random number: \" + secureNumber); } }",
+        # Insecure Random Number Generation fix suggestion
+        "Use SecureRandom to generate random numbers for security-sensitive operations.",
 
-        # Insecure File Permissions fix (restrict file access to owner)
-        "import java.io.File; public class SecureFilePermissions { public static void main(String[] args) { File file = new File(\"sensitive_data.txt\"); file.setReadable(true, true); file.setWritable(true, true); } }",
+        # Insecure File Permissions fix suggestion
+        "Ensure that file permissions are restricted to the owner only.",
 
-        # Secure code example (no change needed)
-        "import java.security.SecureRandom; public class SecureRandomExample { public static void main(String[] args) { SecureRandom secureRandom = new SecureRandom(); int secureNumber = secureRandom.nextInt(); System.out.println(\"Secure random number: \" + secureNumber); } }",
+        # Secure code example (no fix needed)
+        "No fix needed.",
 
-        # Secure code example (no change needed)
-        "import java.sql.Connection; import java.sql.PreparedStatement; import java.sql.SQLException; public class SecureSQL { public static void main(String[] args) { try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = ?\"; PreparedStatement stmt = connection.prepareStatement(query); stmt.setInt(1, 1); stmt.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }"
+        # Secure code example (no fix needed)
+        "No fix needed."
+    ]
+}
+
+flutter_fix_training_data = {
+    "code": [
+        # SQL Injection vulnerability (needs fix)
+        "import 'package:http/http.dart' as http; void fetchData(String userInput) async { var query = 'SELECT * FROM employees WHERE name = ' + userInput; var response = await http.get(Uri.parse('http://example.com/employees?query=$query')); print(response.body); }",
+
+        # Insecure Data Storage vulnerability (needs fix)
+        "import 'dart:io'; class InsecureDataStorageExample { List<String> sensitiveData = []; void addData(String data) { sensitiveData.add(data); File('data.txt').writeAsStringSync(sensitiveData.join(', ')); } List<String> getData() { return sensitiveData; } }",
+
+        # Hardcoded Credentials vulnerability (needs fix)
+        "class HardcodedCredentialsExample { void login() { String username = 'admin'; String password = 'password123'; print('Logging in with username: \$username and password: \$password'); } }",
+
+        # Insecure Random Number Generation vulnerability (needs fix)
+        "import 'dart:math'; class InsecureRandomExample { void generateRandomNumber() { var random = Random(); int insecureRandom = random.nextInt(1000); print('Insecure random number: \$insecureRandom'); } }",
+
+        # Insecure File Permissions vulnerability (needs fix)
+        "import 'dart:io'; class InsecureFilePermissionsExample { void setPermissions() { var file = File('confidential.txt'); file.writeAsStringSync('Sensitive information'); file.setLastModifiedSync(DateTime.now()); } }",
+
+        # Code that requires no changes (already secure)
+        "import 'dart:math'; class SecureRandomExample { void generateSecureRandomNumber() { var secureRandom = Random.secure(); int secureRandomNumber = secureRandom.nextInt(100); print('Secure random number: \$secureRandomNumber'); } }",
+
+        # Code that requires no changes (already secure)
+        "import 'package:http/http.dart' as http; void fetchSecureData() async { var response = await http.get(Uri.parse('http://example.com/employees?userId=1')); print(response.body); }"
+    ],
+    "fix_suggestions": [
+        # SQL Injection fix suggestion
+        "Use parameterized queries to prevent SQL injection.",
+
+        # Insecure Data Storage fix suggestion
+        "Encrypt sensitive data before storage.",
+
+        # Hardcoded Credentials fix suggestion
+        "Externalize credentials to configuration files or environment variables.",
+
+        # Insecure Random Number Generation fix suggestion
+        "Use SecureRandom for generating secure random numbers.",
+
+        # Insecure File Permissions fix suggestion
+        "Restrict file permissions to prevent unauthorized access.",
+
+        # No fix needed for secure random number generation
+        "No fix needed.",
+
+        # No fix needed for secure data fetching
+        "No fix needed."
     ]
 }
 
 # Validation data for severity scoring
-severity_validation_data = {
+java_severity_validation_data = {
     "code": [
         # High severity: SQL Injection vulnerability
         "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1 OR 1=1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = \" + userInput; PreparedStatement statement = connection.prepareStatement(query); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
@@ -106,8 +181,37 @@ severity_validation_data = {
     "severity": ["High", "High", "Medium", "Medium", "Low", "Safe", "Safe"]
 }
 
+flutter_severity_validation_data = {
+    "code": [
+        # SQL Injection vulnerability (High severity)
+        "import 'package:http/http.dart' as http; void fetchData(String userInput) async { var query = 'SELECT * FROM employees WHERE name = ' + userInput; var response = await http.get(Uri.parse('http://example.com/employees?query=$query')); print(response.body); }",
+
+        # Insecure Data Storage vulnerability (Medium severity)
+        "import 'dart:io'; class InsecureDataStorageValidation { List<String> sensitiveData = []; void addData(String data) { sensitiveData.add(data); File('data.txt').writeAsStringSync(sensitiveData.join(', ')); } List<String> getData() { return sensitiveData; } }",
+
+        # Hardcoded Credentials vulnerability (High severity)
+        "class HardcodedCredentialsValidation { void login() { String username = 'root'; String password = 'toor123'; print('Logging in with username: \$username and password: \$password'); } }",
+
+        # Insecure Random Number Generation vulnerability (Medium severity)
+        "import 'dart:math'; class InsecureRandomValidation { void generateRandomNumber() { var random = Random(); int insecureRandom = random.nextInt(1000); print('Insecure random number: \$insecureRandom'); } }",
+
+        # Insecure File Permissions vulnerability (High severity)
+        "import 'dart:io'; class InsecureFilePermissionsValidation { void setPermissions() { var file = File('confidential.txt'); file.writeAsStringSync('Sensitive information'); file.setLastModifiedSync(DateTime.now()); } }",
+
+        # Code that requires no changes (Low severity)
+        "import 'dart:math'; class SecureRandomValidation { void generateSecureRandomNumber() { var secureRandom = Random.secure(); int secureRandomNumber = secureRandom.nextInt(100); print('Secure random number: \$secureRandomNumber'); } }",
+
+        # Code that requires no changes (None severity)
+        "import 'package:crypto/crypto.dart'; class SecureHashValidation { void generateHash(String input) { var bytes = utf8.encode(input); var digest = sha256.convert(bytes); print('SHA-256 Hash: \$digest'); } }",
+
+        # Code that requires no changes (None severity)
+        "import 'package:http/http.dart' as http; void fetchSecureData() async { var response = await http.get(Uri.parse('http://example.com/employees?userId=1')); print(response.body); }"
+    ],
+    "severity": ["High", "Medium", "High", "Medium", "High", "Low", "Low", "Low"]
+}
+
 # Validation data for fix suggestions
-fix_validation_data = {
+java_fix_validation_data = {
     "code": [
         # SQL Injection vulnerability (needs fix)
         "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1 OR 1=1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = \" + userInput; PreparedStatement statement = connection.prepareStatement(query); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
@@ -127,30 +231,99 @@ fix_validation_data = {
         # Code that requires no changes (safe code example)
         "import java.sql.Connection; import java.sql.PreparedStatement; import java.sql.SQLException; public class SecureSQL { public static void main(String[] args) { try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = ?\"; PreparedStatement stmt = connection.prepareStatement(query); stmt.setInt(1, 1); stmt.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }"
     ],
-    "fixed_code": [
-        # SQL Injection fix (use prepared statements)
-        "import java.sql.Connection; import java.sql.DriverManager; import java.sql.PreparedStatement; import java.sql.SQLException; public class SQLInjectionExample { public static void main(String[] args) { String userInput = \"1\"; try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = ?\"; PreparedStatement statement = connection.prepareStatement(query); statement.setString(1, userInput); statement.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }",
+    "fix_suggestions": [
+        # SQL Injection fix suggestion
+        "Use parameterized queries to prevent SQL injection.",
 
-        # Hardcoded Credentials fix (externalize credentials)
-        "import java.util.Properties; import java.io.InputStream; public class ExternalizedCredentials { public static void main(String[] args) { try (InputStream input = ClassLoader.getSystemResourceAsStream(\"config.properties\")) { Properties prop = new Properties(); prop.load(input); String username = prop.getProperty(\"username\"); String password = prop.getProperty(\"password\"); System.out.println(\"Login as: \" + username); } catch (Exception e) { e.printStackTrace(); } } }",
+        # Hardcoded Credentials fix suggestion
+        "Externalize sensitive information such as credentials to secure storage or environment variables.",
 
-        # Insecure Random Number Generation fix (use SecureRandom)
-        "import java.security.SecureRandom; public class SecureRandomExample { public static void main(String[] args) { SecureRandom secureRandom = new SecureRandom(); int secureNumber = secureRandom.nextInt(); System.out.println(\"Secure random number: \" + secureNumber); } }",
+        # Insecure Random Number Generation fix suggestion
+        "Use SecureRandom to generate random numbers for security-sensitive operations.",
 
-        # Insecure Data Storage fix (encrypt sensitive data)
-        "import java.util.ArrayList; import java.util.List; import javax.crypto.Cipher; import javax.crypto.KeyGenerator; import javax.crypto.SecretKey; public class SecureDataStorageExample { private List<String> sensitiveData = new ArrayList<>(); public void addData(String data) throws Exception { SecretKey key = KeyGenerator.getInstance(\"AES\").generateKey(); Cipher cipher = Cipher.getInstance(\"AES\"); cipher.init(Cipher.ENCRYPT_MODE, key); byte[] encryptedData = cipher.doFinal(data.getBytes()); sensitiveData.add(new String(encryptedData)); } public List<String> getData() { return sensitiveData; } }",
+        # Insecure Data Storage fix suggestion
+        "Ensure encryption for sensitive data before storing it.",
 
-        # Secure code example (no change needed)
-        "import java.security.SecureRandom; public class SecureRandomExample { public static void main(String[] args) { SecureRandom secureRandom = new SecureRandom(); int secureNumber = secureRandom.nextInt(); System.out.println(\"Secure random number: \" + secureNumber); } }",
+        # Secure code example (no fix needed)
+        "No fix needed.",
 
-        # Secure code example (no change needed)
-        "import java.sql.Connection; import java.sql.PreparedStatement; import java.sql.SQLException; public class SecureSQL { public static void main(String[] args) { try { Connection connection = DriverManager.getConnection(\"jdbc:your_database_url\", \"username\", \"password\"); String query = \"SELECT * FROM users WHERE id = ?\"; PreparedStatement stmt = connection.prepareStatement(query); stmt.setInt(1, 1); stmt.executeQuery(); } catch (SQLException e) { e.printStackTrace(); } } }"
+        # Secure code example (no fix needed)
+        "No fix needed."
     ]
 }
 
+flutter_fix_validation_data = {
+    "code": [
+        # SQL Injection vulnerability (needs fix)
+        "import 'package:http/http.dart' as http; void getData(String userInput) async { var query = 'SELECT * FROM orders WHERE id = ' + userInput; var response = await http.get(Uri.parse('http://example.com/orders?query=$query')); print(response.body); }",
+
+        # Insecure Data Storage vulnerability (needs fix)
+        "import 'dart:io'; class InsecureDataStorageExample { List<String> sensitiveData = []; void saveData(String data) { sensitiveData.add(data); File('secrets.txt').writeAsStringSync(sensitiveData.join(', ')); } List<String> getData() { return sensitiveData; } }",
+
+        # Hardcoded Credentials vulnerability (needs fix)
+        "class HardcodedCredentialsExample { void authenticate() { String apiKey = 'apikey123'; print('Authenticating with API key: \$apiKey'); } }",
+
+        # Insecure Random Number Generation vulnerability (needs fix)
+        "import 'dart:math'; class InsecureRandomExample { void generateInsecureRandomNumber() { var random = Random(); int insecureNumber = random.nextInt(1000); print('Insecure random number: \$insecureNumber'); } }",
+
+        # Insecure File Permissions vulnerability (needs fix)
+        "import 'dart:io'; class InsecureFilePermissionsExample { void setInsecurePermissions() { var file = File('private_data.txt'); file.setLastModifiedSync(DateTime.now()); file.writeAsStringSync('Confidential info'); } }",
+
+        # Code that requires no changes (already secure)
+        "import 'dart:math'; class SecureRandomExample { void generateSecureNumber() { var secureRandom = Random.secure(); int secureNumber = secureRandom.nextInt(100); print('Secure random number: \$secureNumber'); } }",
+
+        # Code that requires no changes (already secure)
+        "import 'package:http/http.dart' as http; void getSecureData() async { var response = await http.get(Uri.parse('http://example.com/orders?userId=1')); print(response.body); }"
+    ],
+    "fix_suggestions": [
+        # SQL Injection fix suggestion
+        "Use prepared statements to prevent SQL injection.",
+
+        # Insecure Data Storage fix suggestion
+        "Ensure encryption for sensitive data before storing it.",
+
+        # Hardcoded Credentials fix suggestion
+        "Externalize sensitive information such as API keys to environment variables or secure storage.",
+
+        # Insecure Random Number Generation fix suggestion
+        "Use a secure random number generator.",
+
+        # Insecure File Permissions fix suggestion
+        "Ensure file permissions are restricted to authorized users only.",
+
+        # No fix needed for secure random number generation
+        "No fix needed.",
+
+        # No fix needed for secure data fetching
+        "No fix needed."
+    ]
+}
+
+# Combine java and flutter dataframes into one dataframe
+severity_training_data = {
+    "code": java_severity_training_data["code"] + flutter_severity_training_data["code"],
+    "severity": java_severity_training_data["severity"] + flutter_severity_training_data["severity"]
+}
+
+severity_validation_data = {
+    "code": java_severity_validation_data["code"] + flutter_severity_validation_data["code"],
+    "severity": java_severity_validation_data["severity"] + flutter_severity_validation_data["severity"]
+}
+
+fix_training_data = {
+    "code": java_fix_training_data["code"] + flutter_fix_training_data["code"],
+    "fix_suggestions": java_fix_training_data["fix_suggestions"] + flutter_fix_training_data["fix_suggestions"]
+}
+
+fix_validation_data = {
+    "code": java_fix_validation_data["code"] + flutter_fix_validation_data["code"],
+    "fix_suggestions": java_fix_validation_data["fix_suggestions"] + flutter_fix_validation_data["fix_suggestions"]
+}
+
+
 # Save the extended data to CSV files
-pd.DataFrame(severity_data).to_csv('severity_scoring_train_data.csv', index=False)
-pd.DataFrame(fix_data).to_csv('fix_suggestions_train_data.csv', index=False)
+pd.DataFrame(severity_training_data).to_csv('severity_scoring_train_data.csv', index=False)
+pd.DataFrame(fix_training_data).to_csv('fix_suggestions_train_data.csv', index=False)
 
 pd.DataFrame(severity_validation_data).to_csv('severity_scoring_validation_data.csv', index=False)
 pd.DataFrame(fix_validation_data).to_csv('fix_suggestions_validation_data.csv', index=False)
