@@ -1,0 +1,16 @@
+# Ignore specific files
+*.gitignore
+
+# Ignore specific directories
+data/
+models/
+src/
+test/
+
+# Ignore all files in the app directory
+app/**
+
+# Except the main.py file
+!app/__init__.py
+!app/main.py
+
