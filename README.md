@@ -1,6 +1,6 @@
 # Static Code Analyzer for Android Vulnerabilities
 
-This project provides a **comprehensive static analysis framework** for detecting common vulnerabilities in Android code (currently only for Java and Flutter/Dart). It uses **machine learning models fine-tuned on CodeBERT** to detect security issues, suggest fixes, and classify the severity of the vulnerabilities.
+This project provides a **comprehensive static analysis framework** for detecting common vulnerabilities in Android code (Java, Kotlin, and Flutter/Dart). It uses **machine learning models fine-tuned on CodeBERT** to detect security issues, suggest fixes, and classify the severity of the vulnerabilities.
 
 ## Features
 
