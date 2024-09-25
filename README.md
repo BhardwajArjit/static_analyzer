@@ -110,8 +110,8 @@ The models are hosted on Hugging Face under the repository `BhardwajArjit/static
 
 ## Known Limitations
 
-- Currently optimized for Java and Flutter/Dart, but intended to be extended for Android development.
-- The model does not perform multi-classification of vulnerabilities.
+- Fix suggestions are currently generalized.
+- Analysis of Proguard and Gradle files has not been implemented.
   
 ## License
 
