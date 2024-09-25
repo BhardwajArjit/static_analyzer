@@ -84,9 +84,11 @@ Example response:
 
 ```json
 {
-  "vulnerability": "hardcoded_credentials",
-  "severity": "High",
-  "fix": "Use parameterized queries to prevent SQL injection."
+  "vulnerability": "insecure_file_permissions",
+  "line_number": 10,
+  "line_content": "File file = new File(\"sensitive_data.txt\");",
+  "severity": "Medium",
+  "fix": "Restrict file permissions to only those who require access."
 }
 ```
 
